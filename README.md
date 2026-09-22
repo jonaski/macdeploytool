@@ -1,4 +1,4 @@
-# macdeploytool
+# :apple: macdeploytool
 
 `macdeploytool` is a macOS deployment tool for Qt 6 applications, based on and forked from Qt's own `macdeployqt`.
 
