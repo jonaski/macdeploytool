@@ -234,7 +234,11 @@ int main(int argc, char **argv) {
   }
 
   if (plugins) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
     const QStringList plugin_paths = QLibraryInfo::paths(QLibraryInfo::PluginsPath);
+#else
+    const QStringList plugin_paths = QStringList() << QLibraryInfo::path(QLibraryInfo::PluginsPath);
+#endif
     if (plugin_paths.isEmpty()) {
       LogError() << "Missing Qt plugins path\n";
       return 1;

@@ -1164,7 +1164,11 @@ DeploymentInfo MacDeployTool::DeployQtFrameworks(QList<FrameworkInfo> frameworks
     }
 
     if (deployment_info.qt_path.isNull()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
       deployment_info.qt_path = QLibraryInfo::paths(QLibraryInfo::PrefixPath).value(0);
+#else
+      deployment_info.qt_path = QLibraryInfo::path(QLibraryInfo::PrefixPath);
+#endif
     }
 
     if (framework_info.framework_directory.startsWith(bundle_path)) {
@@ -1261,7 +1265,11 @@ DeploymentInfo MacDeployTool::DeployQtFrameworks(const QString &appbundle_path, 
   const QStringList all_binary_paths = QStringList() << application_bundle.binary_path << application_bundle.library_paths << additional_executables;
 
   QList<QString> all_library_paths = GetBinaryRPaths(application_bundle.binary_path, true);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
   all_library_paths.append(QLibraryInfo::paths(QLibraryInfo::LibrariesPath));
+#else
+  all_library_paths.append(QLibraryInfo::path(QLibraryInfo::LibrariesPath));
+#endif
   all_library_paths.removeDuplicates();
 
   QList<FrameworkInfo> frameworks = GetQtFrameworksForPaths(all_binary_paths, appbundle_path, all_library_paths, use_debug_libs);
